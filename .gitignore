@@ -1,3 +1,5 @@
 *.o
 make-task/calculator
 cmake-task/build/
+make-task/hello*
+build/
