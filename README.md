@@ -1,15 +1,46 @@
 # Make & CMake Recruit
 
+用一个很小的 C 计算器程序，练习 **C 编译流程**、**Makefile** 和 **CMake**。
+
+仓库里有两套独立项目：`make-task/` 用手写 Makefile 构建；`cmake-task/` 用 CMake 构建。文字题写在 `answers/`，根目录的 `check.sh` 用来自检 Make / CMake 两个实践任务能否正常构建和运行。
+
+允许查资料、搜索和使用 AI，但请确保你能够解释自己提交的 Makefile、CMakeLists.txt 和文字答案。
+
+## 仓库内容简介
+
+| 路径 | 说明 |
+| --- | --- |
+| `answers/` | 文字题作答：编译阶段说明、Make 增量编译思考、Task 4 思考题 |
+| `make-task/` | Make 实践：`main` + `calculator` + `logger`，补全 `Makefile` 后生成 `calculator` |
+| `cmake-task/` | CMake 实践：更简单的同一计算器（无 logger），补全 `CMakeLists.txt` |
+| `check.sh` | 根目录自检脚本，核对两套程序的构建结果与输出 |
+| `README.md` | 本说明文档 |
+
+Make 版程序预期输出：
+
+```text
+[INFO] Calculator started
+10 + 5 = 15
+10 - 5 = 5
+```
+
+CMake 版程序预期输出：
+
+```text
+10 + 5 = 15
+10 - 5 = 5
+```
+
 ## 环境
 
-推荐使用 Linux环境，并安装：
+推荐使用 Linux，并安装：
 
 ```bash
 sudo apt update
 sudo apt install build-essential cmake
 ```
 
-确认：
+确认工具可用：
 
 ```bash
 gcc --version
@@ -22,21 +53,32 @@ cmake --version
 ```text
 .
 ├── answers/
-│   ├── task1.md
-│   └── task4.md
+│   ├── task1.md          # Task 1：编译流程笔记
+│   ├── task2.md          # Task 2 相关思考
+│   └── task4.md          # Task 4：思考题
 ├── make-task/
 │   ├── include/
+│   │   ├── calculator.h
+│   │   └── logger.h
 │   ├── src/
+│   │   ├── main.c
+│   │   ├── calculator.c
+│   │   └── logger.c
 │   └── Makefile
 ├── cmake-task/
 │   ├── include/
+│   │   └── calculator.h
 │   ├── src/
+│   │   ├── main.c
+│   │   └── calculator.c
 │   └── CMakeLists.txt
 ├── check.sh
 └── README.md
 ```
 
-## Task 1：编译流程笔记
+## 任务
+
+### Task 1：编译流程笔记
 
 请在 `answers/task1.md` 中，用自己的语言简要说明一个 C 程序从 `.c` 源文件到可执行文件的大致过程。
 
@@ -49,11 +91,11 @@ gcc -c hello.s -o hello.o
 gcc hello.o -o hello
 ```
 
-重点理解各阶段在做什么。
+重点理解各阶段在做什么：预处理、编译、汇编、链接。
 
-## Task 2：完成 Makefile
+### Task 2：完成 Makefile
 
-进入：
+进入目录：
 
 ```bash
 cd make-task
@@ -75,25 +117,23 @@ make clean
 10 - 5 = 5
 ```
 
-完成后修改一次 `src/calculator.c`（也可以使用 `touch src/calculator.c`），再次运行 `make`，观察哪些文件被重新编译，并思考为什么。
+完成后修改一次 `src/calculator.c`（也可以使用 `touch src/calculator.c`），再次运行 `make`，观察哪些文件被重新编译，并思考为什么。相关思考可写在 `answers/task2.md`。
 
-## Task 3：完成 CMakeLists.txt
+### Task 3：完成 CMakeLists.txt
 
-进入：
+进入目录：
 
 ```bash
 cd cmake-task
 ```
 
-补全 `CMakeLists.txt` 中的 TODO，使：
+补全 `CMakeLists.txt` 中的 TODO，使以下命令可以正常工作：
 
 ```bash
 cmake -S . -B build
 cmake --build build
 ./build/calculator
 ```
-
-可以正常工作。
 
 你只需要用到很基础的 CMake 内容，例如：
 
@@ -102,7 +142,7 @@ add_executable(...)
 target_include_directories(...)
 ```
 
-## Task 4：思考题
+### Task 4：思考题
 
 请在 `answers/task4.md` 中回答：
 
@@ -120,5 +160,3 @@ chmod +x check.sh
 ```
 
 自检脚本会检查 Make 和 CMake 两个实践任务是否可以正常构建和运行。
-
-> 允许查资料、搜索和使用 AI，但请确保你能够解释自己提交的 Makefile、CMakeLists.txt 和文字答案。
